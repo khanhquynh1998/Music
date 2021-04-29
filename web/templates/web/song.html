@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+<h1>Songs Page</h1>
+<ul>
+{% for s in song %}
+    <li><a class="nav-link btn btn-light" href="/web/songs/{{ s.id }}">{{ s }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

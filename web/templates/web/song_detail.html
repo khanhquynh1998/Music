@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+<h1>{{ song }}</h1>
+<ul>
+    <li><h3>Ten bai hat: {{ song }}</h3></li>
+    <li><h3>Ten ca si: {{ song.aritst }}</h3></li>
+    <li><img src="{{ song.imageURL }}" height="300" style="margin: auto;"></li>
+    <li><h3>The loai: {{ song.name_type }}</h3></li>
+    {% if song.playlist is not None %}
+        <li><h3>Thuoc playlist: {{ song.playlist }}</h3></li>
+    {% endif %}
+</ul>
+
+{% if song.audioURL != ""%}
+    <audio controls autoplay>
+        <source src="{{ song.audioURL }}" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+{% endif %}
+{% endblock %}
