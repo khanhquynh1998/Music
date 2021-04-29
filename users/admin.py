@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.db import models
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, Song, Playlist, Artist
+from .models import CustomUser, Song, Playlist, Artist, Playlist_Songs
 
 
 class CustomUserAdmin(UserAdmin):
@@ -43,6 +43,7 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Song)
 admin.site.register(Playlist, PlaylistAdmin)
 admin.site.register(Artist, ArtistAdmin)
+admin.site.register(Playlist_Songs)
 
 
 

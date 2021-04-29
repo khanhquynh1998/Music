@@ -62,6 +62,10 @@ class Song(models.Model):
     audio = models.FileField(null = True, blank=True)
     name_type = models.CharField(max_length=20, choices= TYPE_CHOICE, null=True, blank=True )
     date_joined = models.DateTimeField(default=timezone.now)
+    upload_by = models.ForeignKey(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
+    listen_count = models.IntegerField(default=0)
+    class Meta:
+        unique_together = ('name_song','upload_by',)
     def __str__(self):
         return self.name_song
 
@@ -84,20 +88,14 @@ class Playlist(models.Model):
     name_playlist = models.CharField(_("Name Playlist"), max_length=30, null=True)
     image_playlist = models.ImageField(null=True, blank=True)
     user_name = models.ForeignKey(CustomUser, on_delete = models.CASCADE, null=True)
-    song_list = ArrayField(models.OneToOneField(Song, on_delete = models.CASCADE, blank=True, null=True))
+    #song = models.ForeignKey(Song, on_delete = models.CASCADE, blank=True, null=True)
     def __str__(self):
         return self.name_playlist
     class Meta:
         unique_together = ('user_name','name_playlist',)
 
-
-
-
-
-
-     
-
-
-
-    
-
+class Playlist_Songs(models.Model):
+    song = models.ForeignKey(Song, on_delete=models.CASCADE, null=True, blank=True)
+    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, null=True, blank=True)
+    class Meta:
+        unique_together = ('song', 'playlist',)
