@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.db.models import JSONField 
+from django.contrib.postgres.fields import ArrayField
 
 
 
@@ -21,6 +23,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    cache = JSONField(null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'birthday']
@@ -45,12 +48,6 @@ class Artist(models.Model):
             url = ''
         return url
      
-class Playlist(models.Model):
-    #id_playlist = models.CharField(_("ID Playlist"), max_length=30, unique=True) 
-    name_playlist = models.CharField(_("Name Playlist"), max_length=30,unique=True, null=True)
-    image_playlist = models.ImageField(null=True, blank=True)
-    def __str__(self):
-        return self.name_playlist
 
 class Song(models.Model):
     #id_song = models.CharField(_("ID song"), unique=True, max_length=20)
@@ -64,7 +61,7 @@ class Song(models.Model):
     image_song = models.ImageField(null=True, blank=True)
     audio = models.FileField(null = True, blank=True)
     name_type = models.CharField(max_length=20, choices= TYPE_CHOICE, null=True, blank=True )
-    playlist = models.ForeignKey(Playlist, on_delete = models.CASCADE, null=True, blank=True)
+    date_joined = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.name_song
 
@@ -82,8 +79,16 @@ class Song(models.Model):
             url = ''
         return url
     
- 
-
+class Playlist(models.Model):
+    #id_playlist = models.CharField(_("ID Playlist"), max_length=30, unique=True) 
+    name_playlist = models.CharField(_("Name Playlist"), max_length=30, null=True)
+    image_playlist = models.ImageField(null=True, blank=True)
+    user_name = models.ForeignKey(CustomUser, on_delete = models.CASCADE, null=True)
+    song_list = ArrayField(models.OneToOneField(Song, on_delete = models.CASCADE, blank=True, null=True))
+    def __str__(self):
+        return self.name_playlist
+    class Meta:
+        unique_together = ('user_name','name_playlist',)
 
 
 
