@@ -2,9 +2,18 @@
 {% load static %}
 {% block page_content %}
 <h1>Songs Page</h1>
-<ul>
+<div class="row">
 {% for s in song %}
-    <li><a class="nav-link btn btn-light" href="/web/songs/{{ s.id }}">{{ s }}</a></li>
+    <div class="col-sm-3">
+        <div class="box-element product">
+            <a href="/web/songs/{{ s.id }}"><img class="thumbnail" src="{{ s.imageURL }}"></a>
+            <hr>
+            <a class="card-link" href="/web/songs/{{ s.id }}">{{ s }}</a>
+            <br>
+            <a href="{% url 'artist' %}{{ s.aritst }}" class="card-link">{{ s.aritst }}</a>
+        </div>
+        <br>
+    </div>
 {% endfor %}
-</ul>
+</div>
 {% endblock %}

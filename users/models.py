@@ -24,7 +24,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    cache = JSONField(null=True, blank=True)
+    cache = JSONField(default={'data': ''})
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'birthday']
@@ -94,6 +94,12 @@ class Playlist(models.Model):
     #song = models.ForeignKey(Song, on_delete = models.CASCADE, blank=True, null=True)
     def __str__(self):
         return self.name_playlist
+    def imageURL(self):
+        try:
+            url = self.image_playlist.url
+        except:
+            url = ''
+        return url
     class Meta:
         unique_together = ('user_name','name_playlist',)
 
