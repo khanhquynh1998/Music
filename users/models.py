@@ -1,4 +1,5 @@
 import base64
+import datetime
 
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
@@ -82,6 +83,8 @@ class Song(models.Model):
         except:
             url = ''
         return url
+    def was_uploaded_recently(self):
+        return self.date_joined >= timezone.now() - datetime.timedelta(days=1)
     
 class Playlist(models.Model):
     #id_playlist = models.CharField(_("ID Playlist"), max_length=30, unique=True) 

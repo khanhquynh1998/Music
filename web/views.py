@@ -11,10 +11,18 @@ class SignUpView(generic.CreateView):
     template_name = 'registration/register.html'
 
 def dashboard(request):
-    song = Song.objects.all()
+    songs = Song.objects.all()
+    song = []
+    rcm = []
+    for i in songs:
+        if i.was_uploaded_recently():
+            song.append(i)
+        if i.listen_count > 0:
+            rcm.append(i)
     song = song[0:4]
+    rcm = rcm[0:4]
     #song_artist = song.aritst_id
-    return render(request,'dashboard.html',{'song': song})
+    return render(request,'dashboard.html',{'song': song,'rcm': rcm})
 
 def artist(request):
     artist = Artist.objects.all()
