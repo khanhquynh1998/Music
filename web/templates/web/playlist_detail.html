@@ -2,10 +2,12 @@
 {% load static %}
 {% block page_content %}
 <h1>{{ playlist.playlist }}</h1>
-<h6 id="urls">{{ song_url }}</h6>
+<h6 hidden id="urls"> {% for i in songs %} {{ i.song.audioURL }} {% endfor %} </h6>
 <br>
 <audio id="audio" controls autoplay>
-    <source src="{{ item.song.audioURL }}" type="audio/mpeg">
+    {% for i in songs %}
+        <source src="{{ i.song.audioURL }}" type="audio/mpeg">
+    {% endfor %}
 Your browser does not support the audio element.
 </audio>
 <br>
@@ -13,14 +15,8 @@ Your browser does not support the audio element.
 {% for item in songs %}
     <h3>Ten bai hat: {{ item.song }}</h3>
     <h3>Ten ca si: {{ item.song.aritst }}</h3>
-    <p hidden>{{ item.song.audioURL }}</p>
     <img src="{{ item.song.imageURL }}" height="100" style="margin: auto;">
     <hr>
 {% endfor %}
 </div>
 {% endblock %}
-
-<script>
-    var files = document.getElementById('urls').innerText
-    console.log(files)
-</script>
