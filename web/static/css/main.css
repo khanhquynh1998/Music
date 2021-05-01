@@ -2,10 +2,20 @@ body{
 	background-color: hsl(0, 0%, 98%);
 }
 
-h1,h2,h3,h4,h5,h6{
+a:link, a:visited{
 	color:hsl(0, 0%, 30%);
+	text-decoration: none;
+	cursor: pointer;
 }
 
+a:link:active, a:visited:active{
+	color: hsl(0, 0%, 30%);
+}
+
+h1,h2,h3,h4,h5,h6{
+	color:hsl(0, 0%, 30%);
+	text-align: center;
+}
 
 .box-element{
 	box-shadow:hsl(0, 0%, 80%) 0 0 16px;

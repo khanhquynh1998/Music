@@ -2,9 +2,19 @@
 {% load static %}
 {% block page_content %}
 <h1>Artists Page</h1>
-<ul>
-{% for a in artist %}
-    <li><a class="nav-link btn btn-light" href="/web/artists/{{ a.id }}">{{ a }}</a></li>
-{% endfor %}
-</ul>
+<br>
+<div class="row">
+    {% for a in artist %}
+        <div class="col-sm-3">
+            <div class="box-element product">
+                <a href="{% url 'artist' %}{{ a.id }}"><img class="thumbnail" src="{{ a.imageURL }}"></a>
+                <hr>
+                <p class="card-text">{{ a.info_artist }}</p>
+                <a class="card-link" href="{% url 'artist' %}{{ a.id }}" style="float: right;">Xem them...</a>
+                <br>
+            </div>
+            <br>
+        </div>
+    {% endfor %}
+    </div>
 {% endblock %}

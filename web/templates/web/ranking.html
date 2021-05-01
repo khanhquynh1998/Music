@@ -2,4 +2,19 @@
 {% load static %}
 {% block page_content %}
 <h1>Rank Page</h1>
+<br>
+<div class="row">
+<div class="col-sm-3"></div>
+<ol class="col-sm-6 list-group list-group-numbered">
+{% for i in top_song %}
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold"><a href="{% url 'song' %}{{ i.id }}">{{ i }}</a></div>
+            <a href="{% url 'artist' %}{{ i.aritst.id }}">{{ i.aritst }}</a>
+        </div>
+        <span class="badge bg-danger rounded-pill">{{ i.listen_count }} views</span>
+    </li>
+{% endfor %}
+</ol>
+</div>
 {% endblock %}

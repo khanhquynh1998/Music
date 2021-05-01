@@ -41,12 +41,12 @@ def artist(request):
 
 def song(request):
     name_type = request.GET.get('name_type')
-    print(name_type)
+    #print(name_type)
     if(name_type == None):
         song = Song.objects.all()
     else:
         song = Song.objects.filter(name_type=name_type)
-    print(song)
+    #print(song)
     return render(request, "song.html",{'song': song})
 
 def playlist(request):
@@ -59,7 +59,19 @@ def playlist(request):
     return render(request, "playlist.html", {'playlists': playlist, 'pl_songs': pl_song})
 
 def rank(request):
-    return render(request, "ranking.html")
+    songs = Song.objects.all()
+    tmp = []
+    top_song = []
+    for song in songs:
+        tmp.append(song.listen_count)
+    tmp.sort(reverse=True)
+    #print(tmp)
+    for i in range(len(songs)):
+        for song in songs:
+            if (song.listen_count == tmp[i]) and song not in top_song:
+                top_song.append(song)
+    #print(top_song)
+    return render(request, "ranking.html", {'top_song': top_song})
 
 def song_detail(request, song_id):
     song = Song.objects.get(id=song_id)
@@ -72,20 +84,20 @@ def song_detail(request, song_id):
         'song_id': song_id
     }
     if(request.user.cache['data'] == ''):
-        print("Init")
+        #print("Init")
         request.user.cache['data'] = {
             'date_'+date: {
                 'time': time,
                 'song_id': song_id
             }
         }
-        print(request.user.cache)
+        #print(request.user.cache)
         request.user.save()
     else: 
-        print(request.user.cache)
+        #print(request.user.cache)
         #if(str('date_'+date) in request.user.cache['data']):
         append_value(request.user.cache['data'], 'date_'+date, value)
-        print(request.user.cache)
+        #print(request.user.cache)
         request.user.save()
     return render(request, "song_detail.html", {'song': song, 'username': username})
 
