@@ -2,4 +2,36 @@
 {% load static %}
 {% block page_content %}
 <h1>Playlist Page</h1>
+<br>
+{% for item in playlists  %}
+<div class="row box-element product">
+    <div class="col-sm-3">
+      <div class="product list-group">
+        <a href="{% url 'playlist' %}{{ item.id }}"><img class="thumbnail" src="{{ item.imageURL }}"></a>
+      </div>
+      <br><hr>
+      <h4><a href="{% url 'playlist' %}{{ item.id }}" class="card-link">{{ item }}</a></h4>
+    </div>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-8">
+        <div class="product">
+            <div class="list-group">
+            {% for i in pl_songs %}
+                {% if i.playlist_id == item.id %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><a href="{% url 'song' %}{{ i.song.id }}">{{ i.song }}</a></h5>
+                            <small class="text-muted">{{ i.song.added_day }}</small>
+                        </div>
+                        <p class="mb-1">Artist: <a href="{% url 'artist' %}{{ i.song.aritst.id }}">{{i.song.aritst}}</a></small></p>
+                        <p class="mb-1">Some placeholder content in a paragraph.</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+{% endfor %}
 {% endblock %}

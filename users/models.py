@@ -13,6 +13,8 @@ from django.contrib.postgres.fields import ArrayField
 
 from .managers import CustomUserManager
 
+def default_cache():
+    return {'data': ''}
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
@@ -24,7 +26,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    cache = JSONField(null=True, blank=True)
+    cache = JSONField(default=default_cache)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'birthday']
@@ -84,7 +86,15 @@ class Song(models.Model):
             url = ''
         return url
     def was_uploaded_recently(self):
-        return self.date_joined >= timezone.now() - datetime.timedelta(days=1)
+        now = timezone.now()
+        return now - datetime.timedelta(days=7) <= self.date_joined <= now
+    def added_day(self):
+        tmp = str(timezone.now() - self.date_joined)
+        tmp = tmp.split(', ')
+        if len(tmp) == 1:
+            return tmp[0].split(':')[0] + ' hours ago'
+        else:
+            return tmp[0] + ' ago'
     
 class Playlist(models.Model):
     #id_playlist = models.CharField(_("ID Playlist"), max_length=30, unique=True) 
@@ -94,6 +104,12 @@ class Playlist(models.Model):
     #song = models.ForeignKey(Song, on_delete = models.CASCADE, blank=True, null=True)
     def __str__(self):
         return self.name_playlist
+    def imageURL(self):
+        try:
+            url = self.image_playlist.url
+        except:
+            url = ''
+        return url
     class Meta:
         unique_together = ('user_name','name_playlist',)
 
