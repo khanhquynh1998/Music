@@ -2,9 +2,9 @@
 {% load static %}
 {% block page_content %}
 <h1>{{ playlist.playlist }}</h1>
-<h6 hidden id="urls"> {% for i in songs %} {{ i.song.audioURL }} {% endfor %} </h6>
+<h6 hidden id="urls"> {% for i in songs %} {{i.song.name_song}},{{ i.song.audioURL }},{{i.song.imageURL}},{{i.song.aritst}}_ {% endfor %} </h6>
 <br>
-<div class="row">
+<!--<div class="row">
 <div class="col-sm-4"></div>
 <div class="col-sm-4 d-flex ">
 <button style="border-radius: 20px 0 0 20px;" class="btn btn-dark" id="prev" onclick="btn_prev()"><<</button>
@@ -45,5 +45,50 @@ Your browser does not support the audio element.
     </ul>
     <hr>
     {% endfor %}
+</div>-->
+<div class="main">
+  <p id="logo"><i class="fa fa-music"></i>Music</p>
+      
+  <!--- left part --->
+  <div class="left">
+  
+    <!--- song img --->
+    <img id="track_image">
+    <div class="volume">
+      <p id="volume_show">90</p>
+      <i class="fa fa-volume-up" aria-hidden="true" onclick="mute_sound()" id="volume_icon"></i>
+      <input type="range" min="0" max="100" value="90" onchange="volume_change()" id="volume">  
+    </div>
+  </div>
+   
+  
+  <!--- right part --->
+  <div class="right">
+
+    <div class="show_song_no">
+      <p id="present">1</p>
+      <p id="seperator">/</p>
+      <p id="total">1</p>
+    </div>
+
+    <!--- song title & artist name --->
+    
+    <p id="title">{{ song }}</p>
+    <p id="artist">{{ song.aritst }}</p>
+    
+    <!--- middle part --->
+    <div class="middle">
+      <button onclick="previous_song()" id="pre"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
+      <button onclick="justplay()" id="play"><i class="fa fa-play" aria-hidden="true"></i></button>
+      <button onclick="next_song()" id="next"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+    </div>
+  
+    <!--- song duration part --->
+    <div class="duration">
+      <input type="range" min="0" max="100" value="0" id="duration_slider" onchange="change_duration()">
+    </div>
+    <button id="auto" onclick="autoplay_switch()">Auto play <i class="fa fa-circle-o-notch" aria-hidden="true"></i></button>
+  </div>
 </div>
+
 {% endblock %}

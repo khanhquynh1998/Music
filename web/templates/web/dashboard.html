@@ -35,7 +35,7 @@
         {% for item in rcm  %}
         <div class="col-sm-3">
           <div class="box-element product">
-            <a href="{% url 'song' %}{{ item }}"><img class="thumbnail" src="{{ item.imageURL }}"></a>
+            <a href="{% url 'song' %}{{ item.id }}"><img class="thumbnail" src="{{ item.imageURL }}"></a>
             <hr>
             <a href="/web/songs/{{ item.id }}" class="card-link">{{ item }}</a>
             <br>
