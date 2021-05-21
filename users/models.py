@@ -39,7 +39,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Artist(models.Model):
     #id_artist = models.CharField(_("ID Artist"), max_length=20, unique=True) 
     name_artist = models.CharField(_("Name Artist"), max_length=40, null=True) 
-    info_artist = models.CharField(_("Infomation"), max_length=50, null=True)
+    info_artist = models.CharField(_("Infomation"), max_length=500, null=True)
     image_artist = models.ImageField(null=True, blank=True)
     def __str__(self):
         return self.name_artist
@@ -118,3 +118,22 @@ class Playlist_Songs(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, null=True, blank=True)
     class Meta:
         unique_together = ('song', 'playlist',)
+
+class Comments(models.Model):
+    uploaded_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    comment = models.TextField()
+
+class Rating(models.Model):
+    TYPE_CHOICE = (
+    ('1 star','1 Star'),
+    ('2 stars','2 Stars'),
+    ('3 stars','3 Stars'),
+    ('4 stars', '4 Stars'),
+    ('5 stars', '5 Stars'),
+    )
+    user_rated = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    quality = models.CharField(max_length=20, choices=TYPE_CHOICE, null=True, blank=True)
+    class Meta:
+        unique_together = ('user_rated', 'song',)

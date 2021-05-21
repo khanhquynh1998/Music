@@ -4,48 +4,6 @@
 <h1>{{ playlist.playlist }}</h1>
 <h6 hidden id="urls"> {% for i in songs %} {{i.song.name_song}},{{ i.song.audioURL }},{{i.song.imageURL}},{{i.song.aritst}}_ {% endfor %} </h6>
 <br>
-<!--<div class="row">
-<div class="col-sm-4"></div>
-<div class="col-sm-4 d-flex ">
-<button style="border-radius: 20px 0 0 20px;" class="btn btn-dark" id="prev" onclick="btn_prev()"><<</button>
-<audio id="audio" controls autoplay>
-    {% for i in songs %}
-        <source src="{{ i.song.audioURL }}" type="audio/mpeg">
-    {% endfor %}
-Your browser does not support the audio element.
-</audio>
-<button style="border-radius: 0 20px 20px 0;" class="btn btn-dark" id="next" onclick="btn_next()">>></button>
-</div>
-</div>
-<br>
-<div class="box-element product">
-    <h4>Songs List</h4>
-    <hr>
-    {% for i in songs %}
-    <ul class="list-unstyled">
-      <li class="media d-flex row"> 
-        <div class="col-sm-4">
-          <a href="{% url 'song' %}{{ i.song.id }}"><span class="btn btn-success" title="{{ i }}">{{ forloop.counter }}</span></a>
-          <img class="mr-3" src="{{ i.song.imageURL }} " height="40" width="40">
-        </div>
-        <div class="media-body col-sm-4" style="float: right;">
-              <h6 class="mt-0 mb-1">
-                <a href="{% url 'song' %}{{ i.song.id }}" class="name_song">
-                  <strong>{{ i.song }}</strong>
-                </a>
-              </h6>
-              <h6>
-                <a href="{% url 'artist' %}{{ i.song.aritst.id }}" class="artist">{{ i.song.aritst }}</a>
-              </h6>
-        </div>
-        <div class="col-sm-4">
-            <span style="float: right;" class="badge bg-danger rounded-pill">{{ i.song.listen_count }} views</span>
-        </div>
-      </li>
-    </ul>
-    <hr>
-    {% endfor %}
-</div>-->
 <div class="main">
   <p id="logo"><i class="fa fa-music"></i>Music</p>
       

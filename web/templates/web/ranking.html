@@ -1,20 +1,93 @@
 {% extends "base.html" %}
 {% load static %}
 {% block page_content %}
-<h1>Rank Page</h1>
-<br>
-<div class="row">
-<div class="col-sm-3"></div>
-<ol class="col-sm-6 list-group list-group-numbered">
-{% for i in top_song %}
-    <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-            <div class="fw-bold"><a href="{% url 'song' %}{{ i.id }}">{{ i }}</a></div>
-            <a href="{% url 'artist' %}{{ i.aritst.id }}">{{ i.aritst }}</a>
+
+<div class="container-fluid">
+    <h1>
+        <a title="National Ranking">National Ranking</a>
+    </h1>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="box-element product">
+          <h4><a href="{% url 'song' %}?name_type=vpop" title="Rank">Viet Nam</a></h4>
+          <hr>
+          {% for song in top_song_Vpop %}
+          <ul class="list-unstyled">
+            <li class="media d-flex row"> 
+              <div class="col-sm-5">
+                <a href="{% url 'song' %}{{ song.id }}"><span class="btn btn-success" title="{{ song }}">{{ forloop.counter }}</span></a>
+                <a href="{% url 'artist' %}{{ song.aritst.id }}"><img class="mr-3" src="{{ song.aritst.imageURL }} " height="40" width="40"></a>
+              </div>
+              <div class="media-body col-sm-7" style="float: right;">
+                    <h6 class="mt-0 mb-1">
+                      <a href="{% url 'song' %}{{ song.id }}" class="name_song">
+                        <strong>{{ song }}</strong>
+                      </a>
+                    </h6>
+                    <h6>
+                      <a href="{% url 'artist' %}{{ song.aritst.id }}" class="artist" style="color: #2b2b2c">{{ song.aritst }}</a>
+                    </h6>
+              </div>
+            </li>
+          </ul>
+          {% endfor %}
+          </div>
         </div>
-        <span class="badge bg-danger rounded-pill">{{ i.listen_count }} views</span>
-    </li>
-{% endfor %}
-</ol>
-</div>
+        <!--Korea Raking-->
+        <div class="col-sm-4">
+          <div class="box-element product">
+          <h4><a href="{% url 'song' %}?name_type=kpop" title="Rank">Korea</a></h4>
+          <hr>
+          {% for song in top_song_Kpop %}
+          <ul class="list-unstyled">
+            <li class="media d-flex row"> 
+              <div class="col-sm-5">
+                <a href="{% url 'song' %}{{ song.id }}"><span class="btn btn-success" title="{{ song }}">{{ forloop.counter }}</span></a>
+                <a href="{% url 'artist' %}{{ song.aritst.id }}"><img class="mr-3" src="{{ song.aritst.imageURL }} " height="40" width="40"></a>
+              </div>
+              <div class="media-body col-sm-7" style="float: right;">
+                    <h6 class="mt-0 mb-1">
+                      <a href="{% url 'song' %}{{ song.id }}" class="name_song">
+                        <strong>{{ song }}</strong>
+                      </a>
+                    </h6>
+                    <h6>
+                      <a href="{% url 'artist' %}{{ song.aritst.id }}" class="artist" style="color: #2b2b2c">{{ song.aritst }}</a>
+                    </h6>
+              </div>
+            </li>
+          </ul>
+          {% endfor %}
+          </div>
+        </div>
+        <!--USUK Raking-->
+        <div class="col-sm-4">
+          <div class="box-element product">
+          <h4><a href="{% url 'song' %}?name_type=usuk" title="Rank">USUK</a></h4>
+          <hr>
+          {% for song in top_song_USUK %}
+          <ul class="list-unstyled">
+            <li class="media d-flex row"> 
+              <div class="col-sm-5">
+                <a href="{% url 'song' %}{{ song.id }}"><span class="btn btn-success" title="{{ song }}">{{ forloop.counter }}</span></a>
+                <a href="{% url 'artist' %}{{ song.aritst.id }}"><img class="mr-3" src="{{ song.aritst.imageURL }} " height="40" width="40"></a>
+              </div>
+              <div class="media-body col-sm-7" style="float: right;">
+                    <h6 class="mt-0 mb-1">
+                      <a href="{% url 'song' %}{{ song.id }}" class="name_song">
+                        <strong>{{ song }}</strong>
+                      </a>
+                    </h6>
+                    <h6>
+                      <a href="{% url 'artist' %}{{ song.aritst.id }}" class="artist" style="color: #2b2b2c">{{ song.aritst }}</a>
+                    </h6>
+              </div>
+            </li>
+          </ul>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
 {% endblock %}

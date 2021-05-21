@@ -2,13 +2,30 @@
 {% load static %}
 {% block page_content %}
 <h1>{{ artist }}</h1>
-<ul>
-    <li><h3>Ten ca si: {{ artist }}</h3></li>
-    <li><img src="{{ artist.imageURL }}" height="300" style="margin: auto;"></li>
-    <li><h3>Thong tin ca si: {{ artist.info_artist }}</h3></li>
-    {% for song in songs %}
-        <li><a class="nav-link btn btn-light" href="/web/songs/{{ song.id }}"><h3>{{ song.name_song }}</h3></a></li>
-    {% endfor %}
-</ul>
-
+<br>
+<div class="box-element product row">
+    <div class="col-sm-6">
+        <img src="{{ artist.imageURL }}" height="300" style="margin-left: 10%;">
+    </div>
+    <div class="col-sm-6">
+        <h3>Ten ca si: {{ artist }}</h3>
+        <h3>Thong tin ca si: {{ artist.info_artist }}</h3>
+    </div>
+</div>
+<br>
+<p><strong>Cac bai hat noi bat</strong></p>
+<div class="row">
+{% for song in songs %}
+    <div class="col-sm-3">
+        <div class="box-element product">
+            <a href="/web/songs/{{ song.id }}"><img class="thumbnail" src="{{ song.imageURL }}"></a>
+            <hr>
+            <a class="card-link" href="/web/songs/{{ song.id }}">{{ song }}</a>
+            <br>
+            <a href="{% url 'artist' %}{{ song.aritst }}" class="card-link">{{ song.aritst }}</a>
+        </div>
+        <br>
+    </div>
+{% endfor %}
+</div>
 {% endblock %}

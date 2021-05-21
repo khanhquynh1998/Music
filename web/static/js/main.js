@@ -43,7 +43,6 @@ for (i=0; i<file.length; i++){
 			...
 ]*/
 
-//console.log(file);
 // function load the track
 function load_track(index_no){
 	clearInterval(timer);
@@ -63,7 +62,6 @@ function load_track(index_no){
 }
 
 load_track(0);
-//console.log(song_id);
 
 //mute sound function
 function mute_sound(){
@@ -175,7 +173,6 @@ function range_slider(){
 			   if(file.length > 1){
 				   index_no += 1
 			   }
-		       //index_no += 1;
 		       load_track(index_no);
 		       playsong();
            }
