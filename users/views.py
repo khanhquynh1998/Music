@@ -1,3 +1,33 @@
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from users.forms import CustomUserCreationForm
+from django.urls import reverse_lazy
+from django.views import generic
+from django.http import HttpResponse
 # Create your views here.
+
+
+class SignUpView(generic.CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/register.html'
+
+def LogInView(request):
+    if request.method != "POST":
+        return HttpResponse("<script>alert(\"Method Unallowed\");window.location.replace(\"/\");</script>")
+    else:
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+        user = authenticate(email=email, password=password)
+        login(request, user)
+
+        if user != None:
+            if user.username != 'admin':
+                return HttpResponse("<script>alert(\"Login Successfully\");window.location.replace(\"/\");</script>")
+            else:
+                return HttpResponse("<script>alert(\"Login Successfully\");window.location.replace(\"/web/admin/\");</script>")
+        else:
+            messages.error(request, "Invalid Login Details")
+            return HttpResponseRedirect('login/')

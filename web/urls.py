@@ -1,3 +1,4 @@
+from os import name
 import django_pydenticon.urls
 from django.conf.urls import url
 from django.urls import path, include
@@ -5,6 +6,7 @@ from web import views
 
 urlpatterns = [
     path('identicon/', include('django_pydenticon.urls')),
+    path('admin/', views.admin_dashboard, name='admin_dashboard'),
     path('artists/', views.artist,name='artist'),
     path('songs/', views.song,name='song'),
     path('playlists/', views.playlist, name='playlist'),
