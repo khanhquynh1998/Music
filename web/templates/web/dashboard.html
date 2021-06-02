@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% block page_content %}
+{% ifequal user.username "admin" %}
+<script>window.location.replace("{% url 'admin_dashboard' %}");</script>
+{% endifequal %}
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">

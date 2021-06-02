@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
-from users.models import Song, Artist, Playlist, Playlist_Songs, Comments
+from users.models import CustomUser, Song, Artist, Playlist, Playlist_Songs, Comments
 
 from .predict_cmts import toxicity_level
 
@@ -15,7 +15,10 @@ def append_value(dic_obj, key, value):
         dic_obj[key] = value
 
 def admin_dashboard(request):
-    return render(request, 'admin_dashboard.html')
+    songList = Song.objects.all()
+    playlistList = Playlist.objects.all()
+    userList = CustomUser.objects.all()
+    return render(request, 'admin_dashboard.html', {'songList': songList, 'playlistList': playlistList, 'userList': userList})
 
 def dashboard(request):
     songs = Song.objects.all()
