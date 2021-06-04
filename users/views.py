@@ -1,3 +1,4 @@
+from django.core.checks.messages import Error
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
@@ -21,13 +22,17 @@ def LogInView(request):
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
         user = authenticate(email=email, password=password)
-        login(request, user)
+        try:
+            login(request, user)
+        except NameError:
+            messages.error(request, "Invalid Login Details")
+            return HttpResponseRedirect('login/')
 
         if user != None:
             if user.username != 'admin':
                 return HttpResponse("<script>alert(\"Login Successfully\");window.location.replace(\"/\");</script>")
             else:
                 return HttpResponse("<script>alert(\"Login Successfully\");window.location.replace(\"/web/admin/\");</script>")
-        else:
-            messages.error(request, "Invalid Login Details")
-            return HttpResponseRedirect('login/')
+            #else:
+            #    messages.error(request, "Invalid Login Details")
+            #    return HttpResponseRedirect('login/')
