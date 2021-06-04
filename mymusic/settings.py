@@ -85,7 +85,7 @@ DATABASES = {
         #'NAME': BASE_DIR / 'db.sqlite3',
         'NAME': 'MYMUSIC',
         'USER': 'root',
-        'PASSWORD': 'adminadmin',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
     }
