@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_pydenticon',
+    'rest_framework',
     'users',
     'web',
 ]
@@ -85,7 +86,7 @@ DATABASES = {
         #'NAME': BASE_DIR / 'db.sqlite3',
         'NAME': 'MYMUSIC',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'adminadmin',
         'HOST': 'localhost',
         'PORT': '3306',
     }

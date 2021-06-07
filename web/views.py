@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.db.models.fields.files import ImageField
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.utils import timezone
-from users.models import CustomUser, Song, Artist, Playlist, Playlist_Songs, Comments
+from users.models import *
+from users.forms import *
 
 from .predict_cmts import toxicity_level
 
@@ -13,6 +15,18 @@ def append_value(dic_obj, key, value):
         dic_obj[key].append(value)
     else:
         dic_obj[key] = value
+
+def user_profile(request):
+    return render(request, 'user_profile.html')
+
+def song_upload(request):
+    form = SongCreationForm()
+    return render(request, 'song_upload.html', {'form': form})
+
+def artist_form(request):
+    form = ArtistCreationForm()
+    return render(request, 'artist_create.html', {'form': form})
+
 
 def admin_dashboard(request):
     songList = Song.objects.all()
@@ -52,7 +66,7 @@ def dashboard(request):
     vpop = Song.objects.filter(name_type='vpop')
     kpop = Song.objects.filter(name_type='kpop')
     usuk = Song.objects.filter(name_type='usuk')
-    return render(request,'dashboard.html',{'song': song,'rcm': rcm, 'vpop': vpop, 'kpop': kpop, 'usuk': usuk})
+    return render(request,'dashboard.html',{'songList': songs, 'song': song,'rcm': rcm, 'vpop': vpop, 'kpop': kpop, 'usuk': usuk})
 
 def artist(request):
     artist = Artist.objects.all()
@@ -166,3 +180,86 @@ def playlist_detail(request, playlist_id):
     for i in song:
         song_url.append(i.song.audioURL)
     return render(request, "playlist_detail.html", {'playlist': playlist, 'songs': song, 'song_url': song_url})
+
+def createSong(request):
+    form = SongCreationForm()
+    if request.method == 'POST':
+        form = SongCreationForm(request.POST, request.FILES, upload_by=request.POST.user)
+        if form.is_valid():
+            form.save()
+    return HttpResponse("<script>alert(\"Song Uploaded\");window.location.replace(\"/\");</script>")
+
+def updateSong(request, pk):
+    song = Song.objects.get(id=pk)
+    form = SongCreationForm(instance=song)
+    if request.method == 'POST':
+        form = SongCreationForm(request.POST, instance=song)
+        if form.is_valid():
+            form.save()
+            redirect('admin_dashboard.html')
+    context = {'form': form}
+    return render(request, 'registration/songCreation.html', context)
+
+def deleteSong(request, pk):
+    song = Song.objects.get(id=pk)
+    context = {'item': song}
+    if request.method == 'POST':
+        song.delete()
+        redirect('admin_dashboard.html')
+    return render(request, 'registration/itemDelete.html', context)
+
+def createArtist(request):
+    form = ArtistCreationForm()
+    if request.method == 'POST':
+        form = ArtistCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+        else:
+           return HttpResponse("<script>alert(\"Error! Try again later!\");window.location.href = window.location;</script>") 
+    return HttpResponse("<script>alert(\"Artist Created!\");window.location.replace(\"/\");</script>")
+
+def updateArtist(request, pk):
+    artist = Artist.objects.get(id=pk)
+    form = ArtistCreationForm(instance=artist)
+    if request.method == 'POST':
+        form = ArtistCreationForm(request.POST, instance=artist)
+        if form.is_valid():
+            form.save()
+            redirect('admin_dashboard.html')
+    context = {'form': form}
+    return render(request, 'registration/songCreation.html', context)
+
+def deleteArtist(request, pk):
+    artist = Artist.objects.get(id=pk)
+    context = {'item': artist}
+    if request.method == 'POST':
+        artist.delete()
+        redirect('admin_dashboard.html')
+    return render(request, 'registration/itemDelete.html', context)
+
+def updateUser(request, pk):
+    user = CustomUser.objects.get(id=pk)
+    form = UserChangeForm(instance=user)
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            redirect('admin_dashboard.html')
+    context = {'form': form}
+    return render(request, 'registration/songCreation.html', context)
+
+def deleteUser(request, pk):
+    user = CustomUser.objects.get(id=pk)
+    context = {'item': user}
+    if request.method == 'POST':
+        user.delete()
+        redirect('admin_dashboard.html')
+    return render(request, 'registration/itemDelete.html', context)
+
+def deleteComment(request, pk):
+    comment = Comments.objects.get(id=pk)
+    context = {'item': comment}
+    if request.method == 'POST':
+        comment.delete()
+        redirect('admin_dashboard.html')
+    return render(request, 'registration/itemDelete.html', context)

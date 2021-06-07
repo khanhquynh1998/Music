@@ -35,27 +35,3 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_('Superuser must have is_superuser=True.'))
         return self.create_user(email, username, first_name, last_name, birthday, password, **extra_fields)
 
-class SongManager(models.Manager):
-    def create_song(self, name_song):
-        song = self.create(name_song=name_song, artist=artist)
-        
-        return song
-
-class PlaylistManager(models.Manager):
-    def create_playlist(self, name_playlist):
-        playlist = self.create(name_playlist=name_playlist)
-
-        return playlist
-
-class ArtistManager(models.Manager):
-    def create_artist(self, name_artist):
-        artist = self.create(name_artist=name_artist)
-
-        return artist        
-
-class TypeManagers(models.Manager):
-    def create_type(self, name_type):
-        type = self.create(name_type=name_type)
-
-        return type
-                
