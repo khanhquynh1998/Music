@@ -9,6 +9,7 @@
       
     </head>
     <body>
+      <p id="songs_arr" hidden>{{ context_song }}</p>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'dashboard' %}">Home</a>
@@ -30,17 +31,17 @@
                 <a class="nav-link btn btn-light" href="{% url 'artist' %}">Artists</a>
               </li>
             </ul>
-            <form method="GET" class="d-flex" style="margin-right: 5px;">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <a class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</a>
-            </form>
+            <!--div class="autocomplete" style="width:100%;">
+              <input onchange="test();" id="myInput" name="myCountry" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            </div-->
           </div>
+          
           {% if user.is_authenticated %}
             <div class="btn-group">
                 <button type="button" class="btn btn-primary my-2 my-sm-0 dropdown-toggle" style="color: white;" data-bs-toggle="dropdown" aria-expanded="false">Hi, {{ user.username }}!</button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Uploads</a></li>
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><a class="dropdown-item" href="{% url 'upload_song' %}">Uploads</a></li>
+                  <li><a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="btn btn-outline-success my-2 my-sm-0 dropdown-item" href="{% url 'logout' %}">Log out</a></li>
                 </ul>

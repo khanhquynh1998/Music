@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+
+<br>
+<form class="row g-3" method="POST" enctype="multipart/form-data" action="{% url 'createSong' %}">
+    {% csrf_token %}
+    <img class="mb-4" src="{% static 'images/music-notes.svg' %}" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Please Complete All Fields</h1>
+    <div class="col-md-6">
+      <label for="inputSongName" class="form-label">Song Name</label>
+      <input type="text" name="name_song" class="form-control" id="inputSongName">
+    </div>
+    <div class="col-md-6">
+        <label for="inputState" class="form-label">Artist Name</label>
+        <select id="inputState" name="aritst" class="form-select">
+          {% for option in form.aritst %}
+              {{option}}
+          {% endfor %}
+        </select>
+        <a href="{% url 'artist_form' %}"><small><u>Add New Artist</u></small></a>
+    </div>
+    <p id="uploaded_user" hidden></p>
+    <div class="col-sm-4"></div>
+    <div class="col-12">
+      <label for="inputAddress" class="form-label">Image</label>
+      <input type="file" class="form-control" name="image_song" id="inputAddress">
+    </div>
+    <div class="col-12">
+      <label for="inputAddress2" class="form-label">Audio</label>
+      <input type="file" class="form-control" name="audio" id="inputAddress2">
+    </div>
+    <div class="col-md-4">
+      <label for="inputState2" class="form-label">Name Type</label>
+      <select id="inputState2" name="name_type" class="form-select">
+        {% for option in form.name_type %}
+            {{option}}
+        {% endfor %}
+      </select>
+    </div>
+    <p id="nametype_placeholder" hidden></p>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+  </form>
+  <br>
+<script>
+    console.log(document.getElementById('inputState').value);
+</script>
+{% endblock %}

@@ -112,8 +112,8 @@
                 <td>{{ song.listen_count }}</td>
                 <td>
                   <div>
-                    <button type="button" class="btn btn-sm btn-success"><span data-feather="edit"></span></button>
-                    <button type="button" class="btn btn-sm btn-danger"><span data-feather="trash"></span></button>
+                    <a type="button" class="btn btn-sm btn-success" href="{% url 'updateSong' song.id%}"><span data-feather="edit"></span></a>
+                    <a type="button" class="btn btn-sm btn-danger" href="{% url 'deleteSong' song.id %}"><span data-feather="trash"></span></a>
                   </div>
                 </td>
               </tr>
@@ -192,8 +192,8 @@
                 <td>{{ user.email }}</td>
                 <td>
                   <div>
-                    <button type="button" class="btn btn-sm btn-success"><span data-feather="edit"></span></button>
-                    <button type="button" class="btn btn-sm btn-danger"><span data-feather="trash"></span></button>
+                    <a type="button" class="btn btn-sm btn-success" href="{% url 'updateUser' user.id %}"><span data-feather="edit"></span></a>
+                    <a type="button" class="btn btn-sm btn-danger" href="{% url 'deleteUser' user.id%}"><span data-feather="trash"></span></a>
                   </div>
                 </td>
               </tr>
@@ -220,8 +220,8 @@
                 <td>{{ artist.info_artist }}</td>
                 <td>
                   <div>
-                    <button type="button" class="btn btn-sm btn-success"><span data-feather="edit"></span></button>
-                    <button type="button" class="btn btn-sm btn-danger"><span data-feather="trash"></span></button>
+                    <a type="button" class="btn btn-sm btn-success" href="{% url 'updateArtist' artist.id %}"><span data-feather="edit"></span></a>
+                    <a type="button" class="btn btn-sm btn-danger" href="{% url 'deleteArtist' artist.id %}"><span data-feather="trash"></span></a>
                   </div>
                 </td>
               </tr>
@@ -249,10 +249,7 @@
                 <td>{{ comment.song }}</td>
                 <td>{{ comment.comment }}</td>
                 <td>
-                  <div>
-                    <button type="button" class="btn btn-sm btn-success"><span data-feather="edit"></span></button>
-                    <button type="button" class="btn btn-sm btn-danger"><span data-feather="trash"></span></button>
-                  </div>
+                    <a type="button" class="btn btn-sm btn-danger" href="{% url 'deleteComment' comment.id %}"><span data-feather="trash"></span></a>
                 </td>
               </tr>
             {% endfor %}

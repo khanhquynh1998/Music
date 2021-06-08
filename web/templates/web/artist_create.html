@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+
+<br>
+<form class="row g-3" method="POST" enctype="multipart/form-data" action="{% url 'createArtist' %}">
+    {% csrf_token %}
+    <img class="mb-4" src="{% static 'images/music-notes.svg' %}" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Please Complete All Fields</h1>
+    <div class="col-md-6">
+      <label for="inputArtistName" class="form-label">Artist Name</label>
+      <input type="text" name="name_artist" class="form-control" id="inputArtistName">
+    </div>
+    <div class="col-sm-6">
+        <label for="inputInfo" class="form-label">Artist Info</label>
+      <input type="text" name="info_artist" class="form-control" id="inputInfo">
+    </div>
+    <div class="col-12">
+      <label for="inputImage" class="form-label">Image</label>
+      <input type="file" name="image_artist" class="form-control" id="inputImage">
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+  </form>
+  <br>
+<script>
+    console.log(document.getElementById('inputState').value);
+</script>
+{% endblock %}

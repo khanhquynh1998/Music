@@ -1,12 +1,15 @@
+from rest_framework.decorators import api_view
+from users.models import CustomUser, Song
 from django.core.checks.messages import Error
 from django.http.response import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from users.forms import CustomUserCreationForm
+from users.forms import CustomUserCreationForm, SongCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponse
+
 # Create your views here.
 
 
@@ -29,10 +32,5 @@ def LogInView(request):
             return HttpResponseRedirect('login/')
 
         if user != None:
-            if user.username != 'admin':
-                return HttpResponse("<script>alert(\"Login Successfully\");window.location.replace(\"/\");</script>")
-            else:
-                return HttpResponse("<script>alert(\"Login Successfully\");window.location.replace(\"/web/admin/\");</script>")
-            #else:
-            #    messages.error(request, "Invalid Login Details")
-            #    return HttpResponseRedirect('login/')
+            #if user.username != 'admin':
+            return HttpResponse("<script>alert(\"Login Successfully\");window.location.replace(\"/\");</script>")

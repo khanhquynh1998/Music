@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_pydenticon',
+    'rest_framework',
     'users',
     'web',
 ]
@@ -68,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'web.context_processors.context'
             ],
         },
     },
@@ -85,7 +87,7 @@ DATABASES = {
         #'NAME': BASE_DIR / 'db.sqlite3',
         'NAME': 'MYMUSIC',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'adminadmin',
         'HOST': 'localhost',
         'PORT': '3306',
     }

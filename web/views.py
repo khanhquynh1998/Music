@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.db.models.fields.files import ImageField
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.utils import timezone
-from users.models import CustomUser, Song, Artist, Playlist, Playlist_Songs, Comments
+from users.models import *
+from users.forms import *
 
 from .predict_cmts import toxicity_level
 
@@ -13,6 +15,18 @@ def append_value(dic_obj, key, value):
         dic_obj[key].append(value)
     else:
         dic_obj[key] = value
+
+def user_profile(request):
+    return render(request, 'user_profile.html')
+
+def song_upload(request):
+    form = SongCreationForm()
+    return render(request, 'song_upload.html', {'form': form})
+
+def artist_form(request):
+    form = ArtistCreationForm()
+    return render(request, 'artist_create.html', {'form': form})
+
 
 def admin_dashboard(request):
     songList = Song.objects.all()
@@ -41,18 +55,23 @@ def admin_dashboard(request):
 def dashboard(request):
     songs = Song.objects.all()
     song = Song.objects.order_by('-date_joined')
-    rcm = []
-    for i in songs:
-        #if i.was_uploaded_recently():
-        #    song.append(i)
-        if i.listen_count > 0:
-            rcm.append(i)
+    rcm = Song.objects.order_by('-listen_count')
+
     song = song[0:4]
     rcm = rcm[0:4]
+
     vpop = Song.objects.filter(name_type='vpop')
     kpop = Song.objects.filter(name_type='kpop')
     usuk = Song.objects.filter(name_type='usuk')
-    return render(request,'dashboard.html',{'song': song,'rcm': rcm, 'vpop': vpop, 'kpop': kpop, 'usuk': usuk})
+    context = {
+        'songList': songs,
+        'song': song,
+        'rcm': rcm,
+        'vpop': vpop,
+        'kpop': kpop,
+        'usuk': usuk
+    }
+    return render(request,'dashboard.html', context)
 
 def artist(request):
     artist = Artist.objects.all()
@@ -71,10 +90,6 @@ def song(request):
 def playlist(request):
     playlist = Playlist.objects.all()
     pl_song = Playlist_Songs.objects.all()
-    #for i in playlist:
-    #    tmp = Playlist_Songs.objects.filter(playlist_id=i.id)
-    #    pl_song.append(tmp)
-    #    print(tmp)
     return render(request, "playlist.html", {'playlists': playlist, 'pl_songs': pl_song})
 
 def rank(request):
@@ -114,6 +129,7 @@ def rank(request):
 
 def song_detail(request, song_id):
     song = Song.objects.get(id=song_id)
+    rcm = Song.objects.order_by('-listen_count')[0:4]
     song.listen_count += 1
     song.save()
     username = request.user.username
@@ -151,7 +167,7 @@ def song_detail(request, song_id):
                 return HttpResponse("<script>alert(\"Comment Uploaded\");window.location.href = window.location;</script>")
         else:
             return HttpResponse("<script>alert(\"Toxic Comments are not allowed!\");window.location.href = window.location;</script>")
-    return render(request, "song_detail.html", {'song': song, 'username': username, 'comments': comments})
+    return render(request, "song_detail.html", {'song': song, 'username': username, 'comments': comments, 'rcm': rcm})
 
 def artist_detail(request, artist_id):
     artist = Artist.objects.get(id=artist_id)
@@ -166,3 +182,86 @@ def playlist_detail(request, playlist_id):
     for i in song:
         song_url.append(i.song.audioURL)
     return render(request, "playlist_detail.html", {'playlist': playlist, 'songs': song, 'song_url': song_url})
+
+def createSong(request):
+    form = SongCreationForm()
+    if request.method == 'POST':
+        form = SongCreationForm(request.POST, request.FILES, upload_by=request.POST.user)
+        if form.is_valid():
+            form.save()
+    return HttpResponse("<script>alert(\"Song Uploaded\");window.location.replace(\"/\");</script>")
+
+def updateSong(request, pk):
+    song = Song.objects.get(id=pk)
+    form = SongCreationForm(instance=song)
+    if request.method == 'POST':
+        form = SongCreationForm(request.POST, instance=song)
+        if form.is_valid():
+            form.save()
+            redirect('admin_dashboard.html')
+    context = {'form': form}
+    return render(request, 'registration/songCreation.html', context)
+
+def deleteSong(request, pk):
+    song = Song.objects.get(id=pk)
+    context = {'item': song}
+    if request.method == 'POST':
+        song.delete()
+        redirect('admin_dashboard.html')
+    return render(request, 'registration/itemDelete.html', context)
+
+def createArtist(request):
+    form = ArtistCreationForm()
+    if request.method == 'POST':
+        form = ArtistCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+        else:
+           return HttpResponse("<script>alert(\"Error! Try again later!\");window.location.href = window.location;</script>") 
+    return HttpResponse("<script>alert(\"Artist Created!\");window.location.replace(\"/\");</script>")
+#
+#def updateArtist(request, pk):
+#    artist = Artist.objects.get(id=pk)
+#    form = ArtistCreationForm(instance=artist)
+#    if request.method == 'POST':
+#        form = ArtistCreationForm(request.POST, instance=artist)
+#        if form.is_valid():
+#            form.save()
+#            redirect('admin_dashboard.html')
+#    context = {'form': form}
+#    return render(request, 'registration/songCreation.html', context)
+#
+#def deleteArtist(request, pk):
+#    artist = Artist.objects.get(id=pk)
+#    context = {'item': artist}
+#    if request.method == 'POST':
+#        artist.delete()
+#        redirect('admin_dashboard.html')
+#    return render(request, 'registration/itemDelete.html', context)
+#
+def updateUser(request, pk):
+    user = CustomUser.objects.get(id=pk)
+    form = CustomUserChangeForm(instance=user)
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("<script>alert(\"Updated!\");window.location.replace(\"/\");</script>")
+        else:
+           return HttpResponse("<script>alert(\"Error! Try again later!\");window.location.href = window.location;</script>") 
+
+def deleteUser(request, pk):
+    user = CustomUser.objects.get(id=pk)
+    context = {'item': user}
+    if request.method == 'POST':
+        user.delete()
+        redirect('admin_dashboard.html')
+    return render(request, 'registration/itemDelete.html', context)
+
+def deleteComment(request, pk):
+    comment = Comments.objects.get(id=pk)
+    context = {'item': comment}
+    if request.method == 'POST':
+        comment.delete()
+        redirect('admin_dashboard.html')
+    return render(request, 'registration/itemDelete.html', context)

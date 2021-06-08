@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% block page_content %}
-{% ifequal user.username "admin" %}
+<!--{% ifequal user.username "admin" %}
 <script>window.location.replace("{% url 'admin_dashboard' %}");</script>
-{% endifequal %}
+{% endifequal %}-->
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -56,7 +56,7 @@
         {% for item in song %}
         <div class="col-sm-3">
           <div class="box-element product">
-            <a href="{% url 'song' %}{{ item }}"><img class="thumbnail" src="{{ item.imageURL }}"></a>
+            <a href="{% url 'song' %}{{ item.id }}"><img class="thumbnail" src="{{ item.imageURL }}"></a>
             <hr>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             <a href="#" class="card-link">Card link</a>
@@ -153,4 +153,5 @@
         </div>
       </div>
       <p></p>
+      
 {% endblock %}
