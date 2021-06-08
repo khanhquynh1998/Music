@@ -10,6 +10,7 @@ urlpatterns = [
     path('artist_create/', views.createArtist, name='createArtist'),
     path('artist_form/', views.artist_form, name='artist_form'),
     path('user_profile/', views.user_profile, name='user_profile'),
+    path('user_update/<str:pk>', views.updateUser, name='update_user'),
     path('admin/', views.admin_dashboard, name='admin_dashboard'),
     path('artists/', views.artist,name='artist'),
     path('songs/', views.song,name='song'),

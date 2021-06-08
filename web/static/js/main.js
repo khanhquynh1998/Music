@@ -22,17 +22,19 @@ let track = document.createElement('audio');
 
 var i;
 var file = [];
-var files = document.getElementById('urls').innerText;
-f = files.split('_ ');
-for(i = 0; i<f.length; i++){
-    if(f[i] != " "){
-        file.push(f[i]);
-    }
+var files = document.getElementById('urls');
+if (files  != null) {
+	files = files.innerText;
+	f = files.split('_ ');
+	for(i = 0; i<f.length; i++){
+		if(f[i] != " "){
+			file.push(f[i]);
+		}
+	}
+	for (i=0; i<file.length; i++){
+		file[i] = file[i].split(','); 
+	}
 }
-for (i=0; i<file.length; i++){
-	file[i] = file[i].split(','); 
-}
-
 /* FILE = [
 			[
 				song_name,
@@ -61,7 +63,7 @@ function load_track(index_no){
 	present.innerHTML = index_no + 1;
 }
 
-load_track(0);
+if(files != null) load_track(0);
 
 //mute sound function
 function mute_sound(){
@@ -84,7 +86,8 @@ function mute_sound(){
 
 // reset song slider
  function reset_slider(){
- 	slider.value = 0;
+ 	if(slider != null)
+		slider.value = 0;
  }
 
 // play song

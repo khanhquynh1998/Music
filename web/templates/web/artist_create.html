@@ -5,7 +5,7 @@
 <br>
 <form class="row g-3" method="POST" enctype="multipart/form-data" action="{% url 'createArtist' %}">
     {% csrf_token %}
-    <img class="mb-4" src="{% static 'images/password.svg' %}" alt="" width="72" height="57">
+    <img class="mb-4" src="{% static 'images/music-notes.svg' %}" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Please Complete All Fields</h1>
     <div class="col-md-6">
       <label for="inputArtistName" class="form-label">Artist Name</label>

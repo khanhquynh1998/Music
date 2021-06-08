@@ -46,7 +46,25 @@
     <button id="auto" onclick="autoplay_switch()">Auto play <i class="fa fa-circle-o-notch" aria-hidden="true"></i></button>
   </div>
 </div>
-
+<br>
+<h2>
+  <div class="col-sm-3">  
+  <a title="Recommendation">Recommendation</a>
+  </div>
+</h2>
+<div class="row">
+  {% for item in rcm  %}
+  <div class="col-sm-3">
+    <div class="box-element product">
+      <a href="{% url 'song' %}{{ item.id }}"><img class="thumbnail" src="{{ item.imageURL }}"></a>
+      <hr>
+      <a href="/web/songs/{{ item.id }}" class="card-link">{{ item }}</a>
+      <br>
+      <a href="/web/artists/{{ item.aritst_id }}" class="card-link">{{ item.aritst }}</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 <div class="container mt-5">
   <div class="d-flex justify-content-center row">
       <div class="col-md-8">
